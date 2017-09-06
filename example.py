@@ -3,7 +3,7 @@ import sys
 
 from PyQt5.QtWidgets import QApplication
 
-from workd2d.widgets import World2D
+from world2d.widgets import World2D
 
 
 class ExampleWorld(World2D):
@@ -22,7 +22,7 @@ def main():
     w = ExampleWorld()
     w.resize(800, 600)
     w.move(100, 100)
-    w.setWindowTitle('Simple')
+    w.setWindowTitle('World2D Example')
     w.show()
 
     sys.exit(app.exec_())
