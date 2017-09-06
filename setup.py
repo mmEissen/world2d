@@ -8,7 +8,6 @@ setup(
     author_email='moritz.eissenhauer@gmail.com',
     license='MIT',
     url='https://github.com/mmEissen/world2d',
-    download_url='',
     keywords=['world2d', 'widget', '2d', 'world', 'space', 'pyqt5'],
     classifiers=[
 
