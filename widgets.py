@@ -1,4 +1,5 @@
 
+from PyQt5.QtCore import QPoint
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtGui import QTransform, QPainter
 
@@ -9,7 +10,9 @@ class World2D(QWidget):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.world_transform = QTransform()
+        self.zoom_base = 1.001
         self._is_mouse_down = False
+        self._last_mouse_pos = QPoint()
 
     def inverse_world_transform(self):
         return self.world_transform()
@@ -22,11 +25,30 @@ class World2D(QWidget):
 
         return painter
 
+    def translate(self, dx, dy):
+        self.world_transform.translate(dx, dy)
+        self.update()
+
+    def zoom(self, amount):
+        self.world_transform.scale(amount, amount)
+        self.update()
+
+    def wheelEvent(self, wheel_event):
+        super().wheelEvent(wheel_event)
+        zoom_amount = self.zoom_base ** wheel_event.angleDelta().y()
+        self.zoom(zoom_amount)
+
     def mousePressEvent(self, mouse_event):
         super().mousePressEvent(mouse_event)
-
-    def mouseReleaseEvent(self, mouse_event):
-        super().mouseReleaseEvent(mouse_event)
+        self._last_mouse_pos = mouse_event.pos()
 
     def mouseMoveEvent(self, mouse_event):
         super().mouseMoveEvent(mouse_event)
+
+        new_mouse_pos = mouse_event.pos()
+
+        dx = new_mouse_pos.x() - self._last_mouse_pos.x()
+        dy = new_mouse_pos.y() - self._last_mouse_pos.y()
+        self.translate(dx, dy)
+
+        self._last_mouse_pos = new_mouse_pos
