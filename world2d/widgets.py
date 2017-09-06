@@ -15,21 +15,33 @@ class World2D(QWidget):
         self._last_mouse_pos = QPoint()
 
     def inverse_world_transform(self):
+        """Returns the inverted world_transform.
+        """
         inverted, _ = self.world_transform.inverted()
         return inverted
 
-    def world_painter(self):
-        painter = QPainter()
+    def world_painter(self, painter_class=QPainter):
+        """Create a painter with the world transformation.
+
+        Args:
+            painter_class: You may specify a different class for the painter to be created. This
+                should be a subclass of QPainter. Default is QPainter.
+        """
+        painter = painter_class()
         painter.begin(self)
         painter.setWorldMatrixEnabled(True)
         painter.setWorldTransform(self.world_transform)
         return painter
 
     def translate(self, dx, dy):
+        """Translate the viewport.
+        """
         self.world_transform.translate(dx, dy)
         self.update()
 
     def zoom(self, amount, center):
+        """Scale the viewport around a center point.
+        """
         self.world_transform.translate(center.x(), center.y())
         self.world_transform.scale(amount, amount)
         self.world_transform.translate(-center.x(), -center.y())
