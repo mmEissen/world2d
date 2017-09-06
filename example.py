@@ -3,7 +3,7 @@ import sys
 
 from PyQt5.QtWidgets import QApplication
 
-from widgets import World2D
+from workd2d.widgets import World2D
 
 
 class ExampleWorld(World2D):
