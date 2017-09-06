@@ -23,7 +23,6 @@ class World2D(QWidget):
         painter.begin(self)
         painter.setWorldMatrixEnabled(True)
         painter.setWorldTransform(self.world_transform)
-
         return painter
 
     def translate(self, dx, dy):
@@ -50,8 +49,8 @@ class World2D(QWidget):
         super().mouseMoveEvent(mouse_event)
 
         new_mouse_pos = mouse_event.pos()
-        new_mouse_in_world = new_mouse_pos * self.inverse_world_transform()
-        last_mouse_in_world = self._last_mouse_pos * self.inverse_world_transform()
+        new_mouse_in_world = QPointF(new_mouse_pos) * self.inverse_world_transform()
+        last_mouse_in_world = QPointF(self._last_mouse_pos) * self.inverse_world_transform()
 
         dx = new_mouse_in_world.x() - last_mouse_in_world.x()
         dy = new_mouse_in_world.y() - last_mouse_in_world.y()
