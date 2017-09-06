@@ -1,5 +1,5 @@
 
-from PyQt5.QtCore import QPoint
+from PyQt5.QtCore import QPoint, QPointF
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtGui import QTransform, QPainter
 
@@ -30,14 +30,17 @@ class World2D(QWidget):
         self.world_transform.translate(dx, dy)
         self.update()
 
-    def zoom(self, amount):
+    def zoom(self, amount, center):
+        self.world_transform.translate(center.x(), center.y())
         self.world_transform.scale(amount, amount)
+        self.world_transform.translate(-center.x(), -center.y())
         self.update()
 
     def wheelEvent(self, wheel_event):
         super().wheelEvent(wheel_event)
         zoom_amount = self.zoom_base ** wheel_event.angleDelta().y()
-        self.zoom(zoom_amount)
+        center = QPointF(wheel_event.pos()) * self.inverse_world_transform()
+        self.zoom(zoom_amount, center)
 
     def mousePressEvent(self, mouse_event):
         super().mousePressEvent(mouse_event)
