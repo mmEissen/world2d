@@ -15,7 +15,8 @@ class World2D(QWidget):
         self._last_mouse_pos = QPoint()
 
     def inverse_world_transform(self):
-        return self.world_transform()
+        inverted, _ = self.world_transform.inverted()
+        return inverted
 
     def world_painter(self):
         painter = QPainter()
@@ -46,9 +47,11 @@ class World2D(QWidget):
         super().mouseMoveEvent(mouse_event)
 
         new_mouse_pos = mouse_event.pos()
+        new_mouse_in_world = new_mouse_pos * self.inverse_world_transform()
+        last_mouse_in_world = self._last_mouse_pos * self.inverse_world_transform()
 
-        dx = new_mouse_pos.x() - self._last_mouse_pos.x()
-        dy = new_mouse_pos.y() - self._last_mouse_pos.y()
+        dx = new_mouse_in_world.x() - last_mouse_in_world.x()
+        dy = new_mouse_in_world.y() - last_mouse_in_world.y()
         self.translate(dx, dy)
 
         self._last_mouse_pos = new_mouse_pos
