@@ -35,5 +35,6 @@ setup(
     ],
     install_requires=[
         'PyQt5>=5.9,<6'
-    ]
+    ],
+    python_requires='>=3',
 )
