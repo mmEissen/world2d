@@ -29,4 +29,4 @@ Anything you draw with the painter will be transformed into world space. You can
 ## TODO
 
 - A center function to center the view on a `QRect`
--
+- Tests
