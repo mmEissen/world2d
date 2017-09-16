@@ -47,6 +47,22 @@ class World2D(QWidget):
         self.world_transform.translate(-center.x(), -center.y())
         self.update()
 
+    def zoom_to_fit(self, bounding_box):
+        """Set the scale to fit the bounding_box and center on it.
+        """
+        scale_x = self.width() / bounding_box.width()
+        scale_y = self.height() / bounding_box.height()
+        scale = min(scale_x, scale_y)
+
+        dx = bounding_box.center().x()
+        dy = bounding_box.center().y()
+
+        self.world_transform = QTransform()
+        self.world_transform.translate(self.width() / 2, self.height() / 2)
+        self.world_transform.scale(scale, scale)
+        self.world_transform.translate(-dx, -dy)
+        self.update()
+
     def wheelEvent(self, wheel_event):
         super().wheelEvent(wheel_event)
         zoom_amount = self.zoom_base ** wheel_event.angleDelta().y()
