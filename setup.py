@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
     name='world2d',
     packages=['world2d'],
-    version='0.1.0',
+    version='0.2.0',
     description='A widget for PyQt5 implementing a 2d world space to draw in.',
     author='Moritz Eissenhauer',
     author_email='moritz.eissenhauer@gmail.com',
